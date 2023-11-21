@@ -1,5 +1,6 @@
-package com.example.demo;
-q
+package com.example.demo.service;
+
+import com.example.demo.modele.Personne;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

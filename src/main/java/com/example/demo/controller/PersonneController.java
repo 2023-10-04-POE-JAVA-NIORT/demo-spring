@@ -1,11 +1,13 @@
-package com.example.demo;
+package com.example.demo.controller;
 
-import jakarta.websocket.server.PathParam;
+import com.example.demo.service.AnnuairePersonneService;
+import com.example.demo.modele.Personne;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 @RestController
 @RequestMapping("api")
@@ -46,11 +48,16 @@ public class PersonneController {
     }
 
     @DeleteMapping("personnes/{id}")
-    public void delete(@PathVariable("id") Integer id){
+    public ResponseEntity<String> delete(@PathVariable("id") Integer id){
         int index = 0;
         while(index < annuairePersonneService.getPersonnes().size() && !annuairePersonneService.getPersonnes().get(index).getId().equals(id))
             index++;
-        if(index < annuairePersonneService.getPersonnes().size())
+        if(index < annuairePersonneService.getPersonnes().size()) {
             annuairePersonneService.getPersonnes().remove(index);
+            return ResponseEntity.ok("OK");
+        }
+        else {
+            return ResponseEntity.status(404).body("Id non trouvé");
+        }
     }
 }
