@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 public class PersonneController {
 
     List<Personne> personnes = new ArrayList<>();
+    int idCount = 0;
 
     @GetMapping("personnes")
     public List<Personne> getPersonnes(){
@@ -19,8 +21,18 @@ public class PersonneController {
 
     @PostMapping("personnes")
     public Personne addPersonne(@RequestBody Personne newPersonne){
-        System.out.println(newPersonne);
+        idCount++;
+        newPersonne.setId(idCount);
         personnes.add(newPersonne);
         return newPersonne;
+    }
+
+    @GetMapping("personnes/{id}")
+    public Personne getPersonne(@PathVariable("id") Integer id){
+        for(Personne p : personnes){
+            if(p.getId().equals(id))
+                return p;
+        }
+        return null;
     }
 }
