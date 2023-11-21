@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,26 +11,25 @@ import java.util.List;
 @RequestMapping("api")
 public class PersonneController {
 
-    List<Personne> personnes = new ArrayList<>();
-    int idCount = 0;
+    @Autowired
+    AnnuairePersonneService annuairePersonneService;
+
 
     @GetMapping("personnes")
     public List<Personne> getPersonnes(){
 
-        return personnes;
+        return annuairePersonneService.getPersonnes();
     }
 
     @PostMapping("personnes")
     public Personne addPersonne(@RequestBody Personne newPersonne){
-        idCount++;
-        newPersonne.setId(idCount);
-        personnes.add(newPersonne);
+        annuairePersonneService.addPersonne(newPersonne);
         return newPersonne;
     }
 
     @GetMapping("personnes/{id}")
     public Personne getPersonne(@PathVariable("id") Integer id){
-        for(Personne p : personnes){
+        for(Personne p : annuairePersonneService.getPersonnes()){
             if(p.getId().equals(id))
                 return p;
         }
@@ -39,18 +39,18 @@ public class PersonneController {
     @PutMapping("personnes/{id}")
     public void updatePersonne(@RequestBody Personne newData, @PathVariable("id") Integer id){
         int index = 0;
-        while(index < personnes.size() && !personnes.get(index).getId().equals(id))
+        while(index < annuairePersonneService.getPersonnes().size() && !annuairePersonneService.getPersonnes().get(index).getId().equals(id))
             index++;
-        if(index < personnes.size())
-            personnes.set(index,newData);
+        if(index < annuairePersonneService.getPersonnes().size())
+            annuairePersonneService.getPersonnes().set(index,newData);
     }
 
     @DeleteMapping("personnes/{id}")
     public void delete(@PathVariable("id") Integer id){
         int index = 0;
-        while(index < personnes.size() && !personnes.get(index).getId().equals(id))
+        while(index < annuairePersonneService.getPersonnes().size() && !annuairePersonneService.getPersonnes().get(index).getId().equals(id))
             index++;
-        if(index < personnes.size())
-           personnes.remove(index);
+        if(index < annuairePersonneService.getPersonnes().size())
+            annuairePersonneService.getPersonnes().remove(index);
     }
 }
