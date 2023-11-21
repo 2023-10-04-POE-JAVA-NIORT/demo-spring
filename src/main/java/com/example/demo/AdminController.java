@@ -15,7 +15,7 @@ public class AdminController {
     AnnuairePersonneService annuairePersonneService;
 
     @GetMapping("personnes")
-    List<Personne> getPersonnes(){
+    public List<Personne> getPersonnes(){
         return annuairePersonneService.getPersonnes();
     }
 }
