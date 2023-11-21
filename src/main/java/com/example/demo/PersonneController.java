@@ -35,4 +35,13 @@ public class PersonneController {
         }
         return null;
     }
+
+    @PutMapping("personnes/{id}")
+    public void updatePersonne(@RequestBody Personne newData, @PathVariable("id") Integer id){
+        int index = 0;
+        while(index < personnes.size() && !personnes.get(index).getId().equals(id))
+            index++;
+        if(index < personnes.size())
+            personnes.set(index,newData);
+    }
 }
