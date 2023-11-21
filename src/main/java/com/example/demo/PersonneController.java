@@ -1,8 +1,6 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +9,18 @@ import java.util.List;
 @RequestMapping("api")
 public class PersonneController {
 
-    @GetMapping("personnes")
-    public List<Personne> sayHello(){
+    List<Personne> personnes = new ArrayList<>();
 
-        List<Personne> personnes = new ArrayList<>();
-        personnes.add(new Personne("Alain", "Delon"));
-        personnes.add(new Personne("Steve", "Mac Queen"));
+    @GetMapping("personnes")
+    public List<Personne> getPersonnes(){
+
         return personnes;
+    }
+
+    @PostMapping("personnes")
+    public Personne addPersonne(@RequestBody Personne newPersonne){
+        System.out.println(newPersonne);
+        personnes.add(newPersonne);
+        return newPersonne;
     }
 }
